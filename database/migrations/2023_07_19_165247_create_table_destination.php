@@ -21,7 +21,7 @@ class CreateTableDestination extends Migration
             $table->string('address');
             $table->foreignId('province_id')->references('id')->on('table_province');
             $table->foreignId('city_id')->references('id')->on('table_city');
-            $table->integer('budget')->nullable();
+            $table->string('budget')->nullable();
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();

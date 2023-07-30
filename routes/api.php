@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         });
     });
     Route::controller(DestinationController::class)->group(function() {
+        Route::get('list-category','list_category');
         Route::get('list-province','list_province');
         Route::get('list-city','list_city');
         Route::get('list-city-by-province/{id}','list_city_by_province');

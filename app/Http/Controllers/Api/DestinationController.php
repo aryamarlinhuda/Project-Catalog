@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\City;
 use App\Models\Destination;
 use App\Models\Image;
@@ -32,15 +33,26 @@ class DestinationController extends Controller
             } else {
                 $data[$x]->category = null;
             }
+
             $data[$x]->province = $item->province_name->name;
             $data[$x]->city = $item->city_name->name;
-            $budgetInRupiah = 'Rp ' . number_format($item->budget, 2, ',', '.');
-            $data[$x]->price = $budgetInRupiah;
 
-            $average_rating = Review::where('destination_id',$item->id)->average('rating');
-            $getRating = substr($average_rating, 0, 3);
-            $formattedRating = str_replace('.', ',', $getRating);
-            $data[$x]->rating = $formattedRating;
+            if($item->budget) {
+                $budgetInRupiah = 'Rp ' . number_format($item->budget, 2, ',', '.');
+                $data[$x]->price = $budgetInRupiah;
+            } else {
+                $data[$x]->price = "Free";
+            }
+
+            $reviews = Review::where('destination_id',$item->id)->first();
+            if(!$reviews) {
+                $data[$x]->rating = "No reviews yet";
+            } else {
+                $average_rating = Review::where('destination_id',$item->id)->average('rating');
+                $getRating = substr($average_rating, 0, 3);
+                $formattedRating = str_replace('.', ',', $getRating);
+                $data[$x]->rating = $formattedRating;
+            }
         }
 
         return response()->json([
@@ -108,6 +120,15 @@ class DestinationController extends Controller
             "review" => $review],
             200
         );
+    }
+
+    public function list_category() {
+        $data = Category::orderBy('category','asc')->get();
+
+        return response()->json([
+            "status" => 200,
+            "data" => $data
+        ], 200);
     }
 
     public function filter_by_category($id) {
