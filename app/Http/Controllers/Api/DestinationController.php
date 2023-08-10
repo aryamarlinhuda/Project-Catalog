@@ -20,13 +20,12 @@ class DestinationController extends Controller
         $data = Destination::all();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->pluck('image');
-            $data[$x]->photo = $image;
-            $url = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/";
-            $url_image = collect($image)->map(function ($image) use ($url) {
-                return $url . $image;
-            }); 
-            $data[$x]->photo = $url_image;
+            $image = Image::where('destination_id',$item->id)->first();
+            if($image) {
+                $data[$x]->photo = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/".$image->image;
+            } else {
+                $data[$x]->photo = null;
+            }
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -84,10 +83,15 @@ class DestinationController extends Controller
         $budgetInRupiah = 'Rp ' . number_format($data->budget, 2, ',', '.');
         $data->price = $budgetInRupiah;
 
-        $average_rating = Review::where('destination_id',$data->id)->average('rating');
-        $getRating = substr($average_rating, 0, 3);
-        $formattedRating = str_replace('.', ',', $getRating);
-        $data->rating = $formattedRating;
+        $reviews = Review::where('destination_id',$data->id)->first();
+        if(!$reviews) {
+            $data->rating = "No reviews yet";
+        } else {
+            $average_rating = Review::where('destination_id',$data->id)->average('rating');
+            $getRating = substr($average_rating, 0, 3);
+            $formattedRating = str_replace('.', ',', $getRating);
+            $data->rating = $formattedRating;
+        }
 
         $review = Review::where('destination_id',$id)->get();
 
