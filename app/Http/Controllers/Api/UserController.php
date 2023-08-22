@@ -17,7 +17,7 @@ class UserController extends Controller
         $data = User::find($id);
 
         if($data->photo) {
-            $data->photo_profile = url($data['photo']);
+            $data->photo_profile = url("storage/".$data['photo']);
         } else {
             $data->photo_profile = null;
         }
@@ -66,7 +66,7 @@ class UserController extends Controller
             $update = User::find($id);
 
             if($update->photo) {
-                $update->photo_profile = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/".$update['photo'];
+                $update->photo_profile = url("storage/".$update['photo']);
             } else {
                 $update->photo_profile = null;
             }

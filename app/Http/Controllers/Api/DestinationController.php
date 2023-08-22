@@ -22,7 +22,7 @@ class DestinationController extends Controller
         foreach($data as $x => $item) {
             $image = Image::where('destination_id',$item->id)->first();
             if($image) {
-                $data[$x]->photo = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/".$image->image;
+                $data[$x]->photo = url("storage/".$image->image);
             } else {
                 $data[$x]->photo = null;
             }
@@ -45,7 +45,7 @@ class DestinationController extends Controller
 
             $reviews = Review::where('destination_id',$item->id)->first();
             if(!$reviews) {
-                $data[$x]->rating = "No reviews yet";
+                $data[$x]->rating = null;
             } else {
                 $average_rating = Review::where('destination_id',$item->id)->average('rating');
                 $getRating = substr($average_rating, 0, 3);
@@ -66,9 +66,9 @@ class DestinationController extends Controller
 
         $image = Image::where('destination_id',$data->id)->pluck('image');
         $data->photo = $image;
-        $url = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/";
+        $url = url("storage");
         $url_image = collect($image)->map(function ($image) use ($url) {
-            return $url . $image;
+            return $url ."/". $image;
         }); 
         $data->photo = $url_image;
 
@@ -85,7 +85,7 @@ class DestinationController extends Controller
 
         $reviews = Review::where('destination_id',$data->id)->first();
         if(!$reviews) {
-            $data->rating = "No reviews yet";
+            $data->rating = null;
         } else {
             $average_rating = Review::where('destination_id',$data->id)->average('rating');
             $getRating = substr($average_rating, 0, 3);
@@ -139,13 +139,12 @@ class DestinationController extends Controller
         $data = Destination::where('category_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->pluck('image');
-            $data[$x]->photo = $image;
-            $url = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/";
-            $url_image = collect($image)->map(function ($image) use ($url) {
-                return $url . $image;
-            }); 
-            $data[$x]->photo = $url_image;
+            $image = Image::where('destination_id',$item->id)->first();
+            if($image) {
+                $data[$x]->photo = url("storage/".$image->image);
+            } else {
+                $data[$x]->photo = null;
+            }
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -158,10 +157,15 @@ class DestinationController extends Controller
             $budgetInRupiah = 'Rp ' . number_format($item->budget, 2, ',', '.');
             $data[$x]->price = $budgetInRupiah;
 
-            $average_rating = Review::where('destination_id',$item->id)->average('rating');
-            $getRating = substr($average_rating, 0, 3);
-            $formattedRating = str_replace('.', ',', $getRating);
-            $data[$x]->rating = $formattedRating;
+            $reviews = Review::where('destination_id',$item->id)->first();
+            if(!$reviews) {
+                $data[$x]->rating = null;
+            } else {
+                $average_rating = Review::where('destination_id',$item->id)->average('rating');
+                $getRating = substr($average_rating, 0, 3);
+                $formattedRating = str_replace('.', ',', $getRating);
+                $data[$x]->rating = $formattedRating;
+            }
         }
 
         return response()->json([
@@ -183,13 +187,12 @@ class DestinationController extends Controller
         $data = Destination::where('province_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->pluck('image');
-            $data[$x]->photo = $image;
-            $url = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/";
-            $url_image = collect($image)->map(function ($image) use ($url) {
-                return $url . $image;
-            }); 
-            $data[$x]->photo = $url_image;
+            $image = Image::where('destination_id',$item->id)->first();
+            if($image) {
+                $data[$x]->photo = url("storage/".$image->image);
+            } else {
+                $data[$x]->photo = null;
+            }
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -202,10 +205,15 @@ class DestinationController extends Controller
             $budgetInRupiah = 'Rp ' . number_format($item->budget, 2, ',', '.');
             $data[$x]->price = $budgetInRupiah;
 
-            $average_rating = Review::where('destination_id',$item->id)->average('rating');
-            $getRating = substr($average_rating, 0, 3);
-            $formattedRating = str_replace('.', ',', $getRating);
-            $data[$x]->rating = $formattedRating;
+            $reviews = Review::where('destination_id',$item->id)->first();
+            if(!$reviews) {
+                $data[$x]->rating = null;
+            } else {
+                $average_rating = Review::where('destination_id',$item->id)->average('rating');
+                $getRating = substr($average_rating, 0, 3);
+                $formattedRating = str_replace('.', ',', $getRating);
+                $data[$x]->rating = $formattedRating;
+            }
         }
 
         return response()->json([
@@ -245,13 +253,12 @@ class DestinationController extends Controller
         $data = Destination::where('city_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->pluck('image');
-            $data[$x]->photo = $image;
-            $url = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/";
-            $url_image = collect($image)->map(function ($image) use ($url) {
-                return $url . $image;
-            }); 
-            $data[$x]->photo = $url_image;
+            $image = Image::where('destination_id',$item->id)->first();
+            if($image) {
+                $data[$x]->photo = url("storage/".$image->image);
+            } else {
+                $data[$x]->photo = null;
+            }
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -264,10 +271,15 @@ class DestinationController extends Controller
             $budgetInRupiah = 'Rp ' . number_format($item->budget, 2, ',', '.');
             $data[$x]->price = $budgetInRupiah;
 
-            $average_rating = Review::where('destination_id',$item->id)->average('rating');
-            $getRating = substr($average_rating, 0, 3);
-            $formattedRating = str_replace('.', ',', $getRating);
-            $data[$x]->rating = $formattedRating;
+            $reviews = Review::where('destination_id',$item->id)->first();
+            if(!$reviews) {
+                $data[$x]->rating = null;
+            } else {
+                $average_rating = Review::where('destination_id',$item->id)->average('rating');
+                $getRating = substr($average_rating, 0, 3);
+                $formattedRating = str_replace('.', ',', $getRating);
+                $data[$x]->rating = $formattedRating;
+            }
         }
 
         return response()->json([

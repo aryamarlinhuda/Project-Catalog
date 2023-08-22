@@ -103,7 +103,7 @@ class AuthController extends Controller
                 ], 400);
             } else {
                 if($user['photo']) {
-                    $user->photo_profile = "https://magang.crocodic.net/ki/Arya/Project-Catalog/public/storage/".$user['photo'];
+                    $user->photo_profile = url("storage/".$user['photo']);
                 } else {
                     $user->photo_profile = null;
                 }

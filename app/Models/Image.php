@@ -12,7 +12,7 @@ class Image extends Model
     protected $table = 'image_destination';
     protected $primaryKey = 'id';
     protected $fillable = ['image','destination_id'];
-    protected $hidden = ['destination_id','destination_name'];
+    protected $hidden = ['image','destination_id','destination_name'];
 
     public function destination_name() {
         return $this->belongsTo('App\Models\Destination', 'destination_id');
