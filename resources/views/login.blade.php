@@ -12,8 +12,15 @@
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="card bg-white shadow-lg">
                     <div class="card-body p-5">
+                        @if(session('auth'))
+                        <div class="alert alert-danger alert-block dismissible show fade">
+                            <div class="alert-body">
+                                {{session('auth')}}
+                            </div>
+                        </div>
+                        @endif
                         @if(session('logout'))
-                        <div class="alert alert-success alert-block dismissible show fade mt-4">
+                        <div class="alert alert-success alert-block dismissible show fade">
                             <div class="alert-body">
                                 {{session('logout')}}
                             </div>

@@ -20,12 +20,13 @@ class DestinationController extends Controller
         $data = Destination::all();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->first();
-            if($image) {
-                $data[$x]->photo = url("storage/".$image->image);
-            } else {
-                $data[$x]->photo = null;
-            }
+            $image = Image::where('destination_id',$item->id)->pluck('image');
+            $data[$x]->photo = $image;
+            $url = url("storage");
+            $url_image = collect($image)->map(function ($image) use ($url) {
+                return $url ."/". $image;
+            }); 
+            $data[$x]->photo = $url_image;
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -139,12 +140,13 @@ class DestinationController extends Controller
         $data = Destination::where('category_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->first();
-            if($image) {
-                $data[$x]->photo = url("storage/".$image->image);
-            } else {
-                $data[$x]->photo = null;
-            }
+            $image = Image::where('destination_id',$item->id)->pluck('image');
+            $data[$x]->photo = $image;
+            $url = url("storage");
+            $url_image = collect($image)->map(function ($image) use ($url) {
+                return $url ."/". $image;
+            }); 
+            $data[$x]->photo = $url_image;
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -187,12 +189,13 @@ class DestinationController extends Controller
         $data = Destination::where('province_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->first();
-            if($image) {
-                $data[$x]->photo = url("storage/".$image->image);
-            } else {
-                $data[$x]->photo = null;
-            }
+            $image = Image::where('destination_id',$item->id)->pluck('image');
+            $data[$x]->photo = $image;
+            $url = url("storage");
+            $url_image = collect($image)->map(function ($image) use ($url) {
+                return $url ."/". $image;
+            }); 
+            $data[$x]->photo = $url_image;
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
@@ -253,12 +256,13 @@ class DestinationController extends Controller
         $data = Destination::where('city_id',$id)->get();
 
         foreach($data as $x => $item) {
-            $image = Image::where('destination_id',$item->id)->first();
-            if($image) {
-                $data[$x]->photo = url("storage/".$image->image);
-            } else {
-                $data[$x]->photo = null;
-            }
+            $image = Image::where('destination_id',$item->id)->pluck('image');
+            $data[$x]->photo = $image;
+            $url = url("storage");
+            $url_image = collect($image)->map(function ($image) use ($url) {
+                return $url ."/". $image;
+            }); 
+            $data[$x]->photo = $url_image;
 
             if($item->category_id) {
                 $data[$x]->category = $item->category_name->category;
