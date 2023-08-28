@@ -58,7 +58,7 @@ Back
         </div>
         <div class="mt-3 mb-4">
             <label for="description" class="form-label">Description</label>
-            <textarea name="description" class="form-control" id="description" cols="7" rows="7">{{ $data->descrption }}</textarea>
+            <textarea name="description" class="form-control" id="description" cols="7" rows="7">{{ $data->description }}</textarea>
             @if ($errors->has('description'))
                 <p class="text-danger fst-italic">{{ $errors->first('description') }}</p>
             @endif
